@@ -4,7 +4,7 @@ import chalk from "chalk";
 
 const filepath = path.join("./tasks.json");
 
-if (!existsSync(filepath)) writeFileSync(filepath, JSON.stringify([]), "utf-8");
+if (!existsSync(filepath)) 
 
 const data = readFileSync(filepath, { encoding: "utf-8" });
 const parsed = JSON.parse(data);
