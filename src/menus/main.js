@@ -16,7 +16,8 @@ export async function main_menu() {
     case "list": {
       return;
     }
-    default:
-      return;
+    default: {
+      outro("Fim do programa !!!");
+    }
   }
 }
