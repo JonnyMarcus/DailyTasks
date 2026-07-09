@@ -1,0 +1,24 @@
+{
+  "name": "dailytasks",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/JonnyMarcus/DailyTasks#readme",
+  "bugs": {
+    "url": "https://github.com/JonnyMarcus/DailyTasks/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonnyMarcus/DailyTasks.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.7.0",
+    "chalk": "^5.6.2"
+  }
+}
