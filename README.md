@@ -18,7 +18,7 @@ Um gerenciador de tarefas simples e direto, feito para rodar no terminal. Sem di
 
 **Criando uma tarefa:**
 
-![Criando uma tarefa](screenshot/image.png)
+![Criando uma tarefa](screenshot/criar-tarefa_1.png)
 
 **Listando e visualizando uma tarefa:**
 
