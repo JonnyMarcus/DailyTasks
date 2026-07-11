@@ -2,7 +2,7 @@ import chalk from "chalk";
 import { taskManageer } from "../manager/tasks";
 import { listTaskMenu } from "./list";
 
-export async function updateTaskMenu(taskName) {
+export async function updatedTaskMenu(taskName) {
   const task = taskManageer.tasks.get(taskName);
 
   const formatedDate = new Date(task.createdAt).toLocaleDateString();
@@ -38,7 +38,7 @@ export async function updateTaskMenu(taskName) {
       listTaskMenu();
       return;
     }
-    case "name":
+    case "name": {
       const oldTaskName = task.name;
 
       const newTaskName = await text({
@@ -50,5 +50,25 @@ export async function updateTaskMenu(taskName) {
           }
         },
       });
+      if (isCancel(newTaskName)) {
+        updatedTaskMenu(oldTaskName);
+        return;
+      }
+
+      taskManageer.tasks.delete(oldTaskName);
+      const updatedTask = { ...task, name: newTaskName };
+      taskManageer.tasks.set(newTaskName, updatedTask);
+      taskManageer.save();
+      updatedTaskMenu(newTaskName);
+      return;
+    }
+    case "status": {
+      const taskStatus = ["Em andamento", "Concluida", "Cancelada"];
+      const option = taskStatus
+        .filter((status) => status !== task.status)
+        .map((status) => ({ label: status, value: status }));
+
+      return;
+    }
   }
 }
