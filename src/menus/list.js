@@ -1,10 +1,11 @@
-import { log, select } from "@clack/prompts";
-import { taskManageer } from "../manager/tasks.js";
-import { main_menu } from "./main.js";
+import { log, select, isCancel } from "@clack/prompts";
+import chalk from "chalk";
+import { taskManager } from "../manager/tasks.js";
+import { mainMenu } from "./main.js";
 import { updateTaskMenu } from "./update.js";
 
 export async function listTaskMenu() {
-  if (taskManageer.tasks.size < 1) {
+  if (taskManager.tasks.size < 1) {
     log.warn("Nenhuma tarefa a ser listada");
     setTimeout(() => mainMenu(), 1000);
     return;
@@ -12,8 +13,8 @@ export async function listTaskMenu() {
   const selected = await select({
     message: "Selecione uma tarefa",
     options: [
-      ...taskManageer.toArray().map(({ name, status }) => ({
-        label: `${taskManageer.colorStatus} ${chalk.white.underline(name)}`,
+      ...taskManager.toArray().map(({ name, status }) => ({
+        label: `${taskManager.colorStatus(status)} ${chalk.white.underline(name)}`,
         value: name,
       })),
       { label: "Menu principal", value: "main" },

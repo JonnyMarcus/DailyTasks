@@ -1,6 +1,6 @@
 import { intro, text } from "@clack/prompts";
 import chalk from "chalk";
-import { mainMenu } from "./menus/main";
+import { mainMenu } from "./menus/main.js";
 
 intro(`📋${chalk.bgGreen("Tarefas")}`);
 

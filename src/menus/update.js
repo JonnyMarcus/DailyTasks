@@ -1,12 +1,13 @@
 import chalk from "chalk";
-import { taskManageer } from "../manager/tasks";
-import { listTaskMenu } from "./list";
+import { log, select, text, isCancel } from "@clack/prompts";
+import { taskManager } from "../manager/tasks.js";
+import { listTaskMenu } from "./list.js";
 
-export async function updatedTaskMenu(taskName) {
-  const task = taskManageer.tasks.get(taskName);
+export async function updateTaskMenu(taskName) {
+  const task = taskManager.tasks.get(taskName);
 
   const formatedDate = new Date(task.createdAt).toLocaleDateString();
-  const status = taskManageer.colorStatus(task.status);
+  const status = taskManager.colorStatus(task.status);
 
   log.info(
     [
@@ -18,7 +19,7 @@ export async function updatedTaskMenu(taskName) {
 
   const selected = await select({
     message: "selecione oque deseja fazer",
-    Option: [
+    options: [
       { label: "Alterar nome", value: "name" },
       { label: "Alterar status", value: "status" },
       { label: "Deletar task", value: "delete" },
@@ -31,8 +32,10 @@ export async function updatedTaskMenu(taskName) {
   }
   switch (selected) {
     case "delete": {
-      taskManageer.tasks.delete(taskName);
-      taskManageer.save();
+      taskManager.tasks.delete(taskName);
+      taskManager.save();
+      listTaskMenu();
+      return;
     }
     case "back": {
       listTaskMenu();
@@ -42,44 +45,44 @@ export async function updatedTaskMenu(taskName) {
       const oldTaskName = task.name;
 
       const newTaskName = await text({
-        message: "Digite o onov nome da tarefa",
+        message: "Digite o novo nome da tarefa",
 
         validate(input) {
-          if (taskManageer.tasks.has(input)) {
+          if (taskManager.tasks.has(input)) {
             return "Já existe uma task com esse nome";
           }
         },
       });
       if (isCancel(newTaskName)) {
-        updatedTaskMenu(oldTaskName);
+        updateTaskMenu(oldTaskName);
         return;
       }
 
-      taskManageer.tasks.delete(oldTaskName);
+      taskManager.tasks.delete(oldTaskName);
       const updatedTask = { ...task, name: newTaskName };
-      taskManageer.tasks.set(newTaskName, updatedTask);
-      taskManageer.save();
-      updatedTaskMenu(newTaskName);
+      taskManager.tasks.set(newTaskName, updatedTask);
+      taskManager.save();
+      updateTaskMenu(newTaskName);
       return;
     }
     case "status": {
       const taskStatus = ["Em andamento", "Concluida", "Cancelada"];
-      const option = taskStatus
+      const options = taskStatus
         .filter((status) => status !== task.status)
         .map((status) => ({ label: status, value: status }));
 
       const status = await select({
         message: "Selecione o novo status da tarefa",
-        option,
+        options,
       });
       if (isCancel(status)) {
-        updatedTaskMenu(taskName);
+        updateTaskMenu(taskName);
         return;
       }
 
-      taskManageer.tasks.set(taskName, { ...task, status });
-      taskManageer.save();
-      updatedTaskMenu(taskName);
+      taskManager.tasks.set(taskName, { ...task, status });
+      taskManager.save();
+      updateTaskMenu(taskName);
 
       return;
     }

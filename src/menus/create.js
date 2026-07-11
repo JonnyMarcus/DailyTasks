@@ -1,7 +1,6 @@
-import { isCancel } from "@clack/prompts";
+import { isCancel, log, text } from "@clack/prompts";
 import { taskManager } from "../manager/tasks.js";
-import { log, text } from "@clack/prompt";
-import { main_menu } from "./main.js";
+import { mainMenu } from "./main.js";
 
 export async function createTaskmenu() {
   let name;
@@ -13,7 +12,7 @@ export async function createTaskmenu() {
     if (taskManager.tasks.has(name)) {
       log.error("Ja existe uam tearefa com esse nome !");
     }
-  } while (taskManager.task.has(name));
+  } while (taskManager.tasks.has(name));
 
   if (isCancel(name)) {
     mainMenu();
@@ -23,12 +22,12 @@ export async function createTaskmenu() {
   const task = {
     name,
     status: "Em andamento",
-    createdAT: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
   };
 
   taskManager.create(task);
 
   log.success("Tarefa criada com sucesso");
 
-  setTimeout(() => mainMenu, 1000);
+  setTimeout(() => mainMenu(), 1000);
 }
