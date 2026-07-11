@@ -68,6 +68,19 @@ export async function updatedTaskMenu(taskName) {
         .filter((status) => status !== task.status)
         .map((status) => ({ label: status, value: status }));
 
+      const status = await select({
+        message: "Selecione o novo status da tarefa",
+        option,
+      });
+      if (isCancel(status)) {
+        updatedTaskMenu(taskName);
+        return;
+      }
+
+      taskManageer.tasks.set(taskName, { ...task, status });
+      taskManageer.save();
+      updatedTaskMenu(taskName);
+
       return;
     }
   }

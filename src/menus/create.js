@@ -16,7 +16,7 @@ export async function createTaskmenu() {
   } while (taskManager.task.has(name));
 
   if (isCancel(name)) {
-    main_menu();
+    mainMenu();
     return;
   }
 
@@ -30,5 +30,5 @@ export async function createTaskmenu() {
 
   log.success("Tarefa criada com sucesso");
 
-  setTimeout(() => main_menu, 1000);
+  setTimeout(() => mainMenu, 1000);
 }
