@@ -1,5 +1,6 @@
 import { createTaskmenu } from "./create.js";
 import { intro, text } from "@clack/prompts";
+import { listTaskMenu } from "../manager/tasks.js";
 export async function main_menu() {
   const option = await select({
     message: "Escolha oq deseja fazer",
@@ -17,6 +18,7 @@ export async function main_menu() {
       return;
     }
     case "list": {
+      listTaskMenu();
       return;
     }
     default: {
