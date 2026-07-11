@@ -1,7 +1,7 @@
 import { createTaskmenu } from "./create.js";
 import { intro, text } from "@clack/prompts";
 import { listTaskMenu } from "../manager/tasks.js";
-export async function main_menu() {
+export async function mainMaenu() {
   const option = await select({
     message: "Escolha oq deseja fazer",
     Option: [
